@@ -1,16 +1,42 @@
-// class ProductManager {
-//     constructor () {
-//         this.products = [];
-//     }
+class ProductManager {
+    constructor () {
+        this.products = [];
+        this.productsId = 1;
+    }
 
-//     addProduct(product) {
-//         this.products.push(product)
-//     }
-// }
+    addProduct(product) {
+        if(!product.title || !product.description ||!product.price ||!product.thumbnail ||!product.code ||!product.stock ) {
+            console.log("Complete todos los campos")
+            return;
+        }
+        
+        if (this.products.some((p) => p.code === product.code)) {
+            console.log("El codigo se repite")
+            return;
+        }
+            
+        this.products.push(product);
+        product.id = this.productsId++;
+    }
 
-// const storage = new ProductManager
+    getProducts() {
+        return this.products;
+    }
 
-// storage.addProduct({title:"silla", code: 01})
-// console.log(storage)
+    getProductById (id) { 
+       if(!this.products.find((product) => product.id === id)) {
+        console.log("Not found")
+        return null;
+       }else {
+        return this.products.find((product) => product.id === id)
+       }
+    }
+}
 
-console.log("hola mundo")
+const storage = new ProductManager
+
+storage.addProduct({title:"silla", description:"para sentarse", price:1000, thumbnail:"/img/silla.png", code:01, stock:20})
+storage.addProduct({title:"mesa", description:"para comer", price:2000, thumbnail:"/img/mesa.png", code:02, stock:10})
+
+// console.log(storage.getProducts())
+console.log(storage.getProductById(2))
